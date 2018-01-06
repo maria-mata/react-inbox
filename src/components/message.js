@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Message = () => {
+const Message = ({email}) => {
   return (
-    <div className="row message unread">
+    <div className={"row message " + (email.read ? "read" : "unread") + (email.selected ? "selected" : "")}>
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
@@ -15,7 +15,7 @@ const Message = () => {
       </div>
       <div className="col-xs-11">
         <a>
-          Here is some message text that has a bunch of stuff
+          { email.subject }
         </a>
       </div>
     </div>

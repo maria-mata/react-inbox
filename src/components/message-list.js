@@ -1,9 +1,17 @@
 import React from 'react';
 import Message from './message'
 
-const MessageList = () => {
+const MessageList = (props) => {
+  const emails = props.emails.map(email => {
+    return (
+      <Message email={email} key={email.id}/>
+    )
+  })
+
   return (
-    <Message />
+    <div>
+      { emails }
+    </div>
   );
 }
 
