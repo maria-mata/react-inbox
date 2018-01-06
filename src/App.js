@@ -46,7 +46,8 @@ class App extends Component {
     return (
       <main className="container">
         <Toolbar emails={this.state.emails} />
-        <MessageList emails={this.state.emails} toggleStar={this.toggleStar.bind(this)}/>
+        <MessageList emails={this.state.emails}
+          toggleStar={this.toggleStar.bind(this)} />
       </main>
     )
   }
