@@ -1,15 +1,17 @@
 import React from 'react';
 
-const Message = ({email}) => {
+const Message = ({email, toggleStar}) => {
   return (
-    <div className={"row message " + (email.read ? "read" : "unread") + (email.selected ? "selected" : "")}>
+    <div className={"row message " + (email.read ? "read" : "unread") +
+      (email.selected ? "selected" : "")}>
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
             <input type="checkbox" />
           </div>
           <div className="col-xs-2">
-            <i className="star fa fa-star-o"></i>
+            <i className={"star fa fa-" + (email.starred ? "star" : "star-o")}
+              onClick={() => toggleStar(email)}></i>
           </div>
         </div>
       </div>

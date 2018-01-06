@@ -1,30 +1,54 @@
 import React, { Component } from 'react';
 import Toolbar from './components/toolbar'
 import MessageList from './components/message-list';
+const url = 'https://immense-oasis-78157.herokuapp.com/api';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      emails: []
-    }
-    this.fetchEmails()
+    this.state = { emails: [] }
   }
 
-  async fetchEmails() {
-    const data = await fetch('https://immense-oasis-78157.herokuapp.com/api/messages')
-    const response = await data.json()
-    const emails = response._embedded.messages
-    this.setState({emails})
+  componentDidMount() {
+    fetch(`${url}/messages`)
+    .then(data => data.json())
+    .then(response => {
+      this.setState({emails: response._embedded.messages});
+    })
+  }
+
+  toggleStar(email) {
+    const data = {
+      "messageIds" : [email.id],
+      "command" : "star",
+      "star" : !email.starred
+    }
+    const settings = {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    fetch(`${url}/messages`, settings)
+    .then(response => {
+      if(response.ok) {
+        this.setState(prevState => {
+          const index = prevState.emails.indexOf(email);
+          prevState.emails[index].starred = !prevState.emails[index].starred
+          return prevState
+        })
+      }
+    })
   }
 
   render() {
     return (
-      <div className="container">
+      <main className="container">
         <Toolbar emails={this.state.emails} />
-        <MessageList emails={this.state.emails} />
-      </div>
-    );
+        <MessageList emails={this.state.emails} toggleStar={this.toggleStar.bind(this)}/>
+      </main>
+    )
   }
 }
 

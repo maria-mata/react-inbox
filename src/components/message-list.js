@@ -1,16 +1,19 @@
 import React from 'react';
 import Message from './message'
 
-const MessageList = (props) => {
-  const emails = props.emails.map(email => {
+const MessageList = ({emails, toggleStar}) => {
+  const messages = emails.map(email => {
     return (
-      <Message email={email} key={email.id}/>
+      <Message
+        key={email.id}
+        email={email}
+        toggleStar={toggleStar} />
     )
   })
 
   return (
     <div>
-      { emails }
+      { messages }
     </div>
   );
 }
