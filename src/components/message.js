@@ -7,7 +7,8 @@ const Message = ({email, toggleStar, toggleSelect}) => {
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox" onClick={() => toggleSelect(email)}/>
+            <input type="checkbox" checked={email.selected ? "checked" : ""}
+              onClick={() => toggleSelect(email)}/>
           </div>
           <div className="col-xs-2">
             <i className={"star fa fa-" + (email.starred ? "star" : "star-o")}

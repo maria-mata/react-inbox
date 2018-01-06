@@ -6,14 +6,18 @@ const url = 'https://immense-oasis-78157.herokuapp.com/api';
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = { emails: [] }
+    this.state = {
+      emails: [],
+      bulkCheckbox: () => this.state.emails.every(email => email.selected),
+      emptyCheckbox: () => this.state.emails.every(email => !email.selected)
+    }
   }
 
   componentDidMount() {
     fetch(`${url}/messages`)
     .then(data => data.json())
     .then(response => {
-      this.setState({emails: response._embedded.messages});
+      this.setState({...this.state, emails: response._embedded.messages});
     })
   }
 
@@ -50,10 +54,25 @@ class App extends Component {
     })
   }
 
+  bulkSelect() {
+    this.setState(prevState => {
+      if (prevState.bulkCheckbox()) {
+        prevState.emails.forEach(email => email.selected = false)
+      } else {
+        prevState.emails.forEach(email => email.selected = true)
+      }
+      return prevState
+    })
+  }
+
   render() {
     return (
       <main className="container">
-        <Toolbar emails={this.state.emails} />
+        <Toolbar emails={this.state.emails}
+          bulkSelect={this.bulkSelect.bind(this)}
+          bulkCheckbox={this.state.bulkCheckbox}
+          emptyCheckbox={this.state.emptyCheckbox} />
+
         <MessageList emails={this.state.emails}
           toggleStar={this.toggleStar.bind(this)}
           toggleSelect={this.toggleSelect.bind(this)} />

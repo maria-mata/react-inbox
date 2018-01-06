@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Toolbar = () => {
+const Toolbar = ({
+  emails,
+  bulkSelect,
+  bulkCheckbox,
+  emptyCheckbox
+}) => {
   return (
     <div className="row toolbar">
       <div className="col-md-12">
@@ -9,8 +14,9 @@ const Toolbar = () => {
           unread messages
         </p>
 
-        <button className="btn btn-default">
-          <i className="fa fa-check-square-o"></i>
+        <button className="btn btn-default" onClick={bulkSelect}>
+          <i className={"fa " + (bulkCheckbox() ? "fa-check-square-o" :
+            emptyCheckbox() ? "fa-square-o" : "fa-minus-square-o")}></i>
         </button>
 
         <button className="btn btn-default">
