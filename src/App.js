@@ -42,12 +42,21 @@ class App extends Component {
     })
   }
 
+  toggleSelect(email) {
+    this.setState(prevState => {
+      const index = prevState.emails.indexOf(email);
+      prevState.emails[index].selected = !prevState.emails[index].selected
+      return prevState
+    })
+  }
+
   render() {
     return (
       <main className="container">
         <Toolbar emails={this.state.emails} />
         <MessageList emails={this.state.emails}
-          toggleStar={this.toggleStar.bind(this)} />
+          toggleStar={this.toggleStar.bind(this)}
+          toggleSelect={this.toggleSelect.bind(this)} />
       </main>
     )
   }
