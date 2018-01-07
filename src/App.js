@@ -70,15 +70,15 @@ class App extends Component {
       const ids = prevState.emails.reduce((ids, email) => {
         if (email.selected) {
           email.read = value
-          ids.push(Number(email.id))
+          ids.push(email.id)
         }
         return ids
       }, [])
 
       const data = {
-        "messageIds" : ids,
-        "command" : "read",
-        "read" : value
+        "messageIds": ids,
+        "command": "read",
+        "read": value
       };
       const settings = {
         method: 'PATCH',
@@ -89,7 +89,46 @@ class App extends Component {
       };
       fetch(`${url}/messages`, settings)
       .then(response => {
-        if(response.ok){
+        if(response.ok) {
+          console.log(response)
+        }
+      })
+      return prevState
+    })
+  }
+
+  deleteMessage() {
+    console.log('delete message button');
+  }
+
+  updateLabel(label, action) {
+    this.setState(prevState => {
+      const ids = prevState.emails.reduce((ids, email) => {
+        if (action === "addLabel" && email.selected && !email.labels.includes(label)) {
+          email.labels.push(label)
+          ids.push(email.id)
+        }
+        if (action === "removeLabel" && email.selected && email.labels.includes(label)) {
+          email.labels.splice(email.labels.indexOf(label), 1)
+          ids.push(email.id)
+        }
+        return ids
+      }, [])
+      const data = {
+        "messageIds": ids,
+        "command": action,
+        "label": label
+      };
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${url}/messages`, settings)
+      .then(response => {
+        if(response.ok) {
           console.log(response)
         }
       })
@@ -106,7 +145,8 @@ class App extends Component {
           bulkCheckbox={this.state.bulkCheckbox}
           emptyCheckbox={this.state.emptyCheckbox}
           toggleRead={this.toggleRead.bind(this)}
-          
+          deleteMessage={this.deleteMessage.bind(this)}
+          updateLabel={this.updateLabel.bind(this)}
            />
 
         <MessageList

@@ -1,6 +1,14 @@
 import React from 'react';
 
 const Message = ({email, toggleStar, toggleSelect}) => {
+  const labels = email.labels.map(label => {
+    return (
+      <span key={label} className="label label-warning">
+        {label}
+      </span>
+    )
+  })
+
   return (
     <div className={"row message" + (email.selected ? " selected " : " ") +
       (email.read ? "read" : "unread")}>
@@ -17,6 +25,7 @@ const Message = ({email, toggleStar, toggleSelect}) => {
         </div>
       </div>
       <div className="col-xs-11">
+        { labels }
         <a> { email.subject } </a>
       </div>
     </div>

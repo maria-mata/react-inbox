@@ -5,7 +5,9 @@ const Toolbar = ({
   bulkSelect,
   bulkCheckbox,
   emptyCheckbox,
-  toggleRead
+  toggleRead,
+  deleteMessage,
+  updateLabel
 }) => {
   const unreadCount = () => {
     return emails.reduce((number, email) => {
@@ -37,21 +39,23 @@ const Toolbar = ({
           Mark As Unread
         </button>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select"
+          onChange={event => updateLabel(event.target.value, "addLabel")}>
           <option>Apply label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <select className="form-control label-select">
+        <select className="form-control label-select"
+          onChange={event => updateLabel(event.target.value, "removeLabel")}>
           <option>Remove label</option>
           <option value="dev">dev</option>
           <option value="personal">personal</option>
           <option value="gschool">gschool</option>
         </select>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={() => deleteMessage()}>
           <i className="fa fa-trash-o"></i>
         </button>
       </div>
