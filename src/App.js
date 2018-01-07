@@ -11,7 +11,9 @@ class App extends Component {
       emails: [],
       bulkCheckbox: () => this.state.emails.every(email => email.selected),
       emptyCheckbox: () => this.state.emails.every(email => !email.selected),
-      showCompose: false
+      showCompose: false,
+      subject: "",
+      body: ""
     }
   }
 
@@ -91,7 +93,7 @@ class App extends Component {
       };
       fetch(`${url}/messages`, settings)
       .then(response => {
-        if(response.ok) {
+        if (response.ok) {
           console.log(response)
         }
       })
@@ -130,7 +132,7 @@ class App extends Component {
       };
       fetch(`${url}/messages`, settings)
       .then(response => {
-        if(response.ok) {
+        if (response.ok) {
           console.log(response)
         }
       })
@@ -139,11 +141,40 @@ class App extends Component {
   }
 
   toggleCompose() {
-    this.setState({...this.state, showCompose: !this.state.showCompose})
+    this.setState(prevState => {
+      prevState.showCompose = !prevState.showCompose
+      return prevState
+    })
   }
 
-  sendEmail() {
-    
+  sendEmail(subject, body)  {
+    let data = {
+      subject: subject,
+      body: body,
+      id: this.state.emails.length + 1,
+      read: false,
+      starred: false,
+      selected: false,
+      labels: []
+    }
+    const settings = {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${url}/messages`, settings)
+       .then(response => {
+         if (response.ok){
+           this.setState(prevState => {
+             prevState.emails.unshift(data)
+             prevState.showCompose = false
+             return prevState
+           })
+         }
+       })
+
   }
 
   render() {
@@ -159,8 +190,14 @@ class App extends Component {
           updateLabel={this.updateLabel.bind(this)}
           toggleCompose={this.toggleCompose.bind(this)} />
 
-        <Compose
-          showCompose={this.state.showCompose} />
+        {this.state.showCompose ?
+          <Compose
+            emails={this.state.emails}
+            showCompose={this.state.showCompose}
+            subject={this.state.subject}
+            body={this.state.body}
+            sendEmail={this.sendEmail.bind(this)}/>
+          : null }
 
         <MessageList
           emails={this.state.emails}
