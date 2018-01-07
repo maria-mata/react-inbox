@@ -7,12 +7,21 @@ const Toolbar = ({
   emptyCheckbox,
   toggleRead
 }) => {
+  const unreadCount = () => {
+    return emails.reduce((number, email) => {
+      if (!email.read) {
+        number ++
+      }
+      return number
+    }, 0)
+  }
+
   return (
     <div className="row toolbar">
       <div className="col-md-12">
         <p className="pull-right">
-          <span className="badge badge">2</span>
-          unread messages
+          <span className="badge badge">{unreadCount()}</span>
+          {"unread " + (unreadCount() === 1 ? "message" : "messages")}
         </p>
 
         <button className="btn btn-default" onClick={bulkSelect}>

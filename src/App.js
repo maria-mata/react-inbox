@@ -105,7 +105,9 @@ class App extends Component {
           bulkSelect={this.bulkSelect.bind(this)}
           bulkCheckbox={this.state.bulkCheckbox}
           emptyCheckbox={this.state.emptyCheckbox}
-          toggleRead={this.toggleRead.bind(this)} />
+          toggleRead={this.toggleRead.bind(this)}
+          
+           />
 
         <MessageList
           emails={this.state.emails}
