@@ -5,11 +5,8 @@ const Toolbar = ({
   bulkSelect,
   bulkCheckbox,
   emptyCheckbox,
-  markReadOrUnread
+  toggleRead
 }) => {
-  const markRead = () => markReadOrUnread(true)
-  const markUnread = () => markReadOrUnread(false)
-  
   return (
     <div className="row toolbar">
       <div className="col-md-12">
@@ -23,11 +20,11 @@ const Toolbar = ({
             emptyCheckbox() ? "fa-square-o" : "fa-minus-square-o")}></i>
         </button>
 
-        <button className="btn btn-default" onClick={markRead}>
+        <button className="btn btn-default" onClick={() => toggleRead(true)}>
           Mark As Read
         </button>
 
-        <button className="btn btn-default" onClick={markUnread}>
+        <button className="btn btn-default" onClick={() => toggleRead(false)}>
           Mark As Unread
         </button>
 

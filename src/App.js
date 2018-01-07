@@ -65,7 +65,7 @@ class App extends Component {
     })
   }
 
-  markReadOrUnread(value) {
+  toggleRead(value) {
     this.setState(prevState => {
       const ids = prevState.emails.reduce((ids, email) => {
         if (email.selected) {
@@ -100,14 +100,15 @@ class App extends Component {
   render() {
     return (
       <main className="container">
-        <Toolbar emails={this.state.emails}
+        <Toolbar
+          emails={this.state.emails}
           bulkSelect={this.bulkSelect.bind(this)}
           bulkCheckbox={this.state.bulkCheckbox}
           emptyCheckbox={this.state.emptyCheckbox}
-          markReadOrUnread={this.markReadOrUnread.bind(this)}
-        />
+          toggleRead={this.toggleRead.bind(this)} />
 
-        <MessageList emails={this.state.emails}
+        <MessageList
+          emails={this.state.emails}
           toggleStar={this.toggleStar.bind(this)}
           toggleSelect={this.toggleSelect.bind(this)} />
       </main>

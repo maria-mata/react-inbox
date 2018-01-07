@@ -17,9 +17,7 @@ const Message = ({email, toggleStar, toggleSelect}) => {
         </div>
       </div>
       <div className="col-xs-11">
-        <a>
-          { email.subject }
-        </a>
+        <a> { email.subject } </a>
       </div>
     </div>
   )
