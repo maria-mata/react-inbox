@@ -102,7 +102,34 @@ class App extends Component {
   }
 
   deleteMessage() {
-    console.log('delete message button');
+    this.setState(prevState => {
+      const ids = []
+      prevState.emails.forEach(email => {
+        if (email.selected) {
+          ids.push(email.id)
+          prevState.emails.splice(prevState.emails.indexOf(email), 1)
+        }
+      })
+      const data = {
+        "messageIds" : ids,
+        "command" : "delete"
+      };
+      console.log(data);
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${url}/messages`, settings)
+      .then(response => {
+        if (response.ok) {
+          console.log(response);
+        }
+      })
+      return prevState
+    })
   }
 
   updateLabel(label, action) {
@@ -151,30 +178,24 @@ class App extends Component {
     let data = {
       subject: subject,
       body: body,
-      id: this.state.emails.length + 1,
       read: false,
       starred: false,
       selected: false,
       labels: []
     }
     const settings = {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      };
-      fetch(`${url}/messages`, settings)
-       .then(response => {
-         if (response.ok){
-           this.setState(prevState => {
-             prevState.emails.unshift(data)
-             prevState.showCompose = false
-             return prevState
-           })
-         }
-       })
-
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    fetch(`${url}/messages`, settings)
+    .then(response => {
+      if (response.ok) {
+        window.location.reload()
+      }
+    })
   }
 
   render() {
