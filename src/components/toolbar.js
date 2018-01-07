@@ -7,7 +7,8 @@ const Toolbar = ({
   emptyCheckbox,
   toggleRead,
   deleteMessage,
-  updateLabel
+  updateLabel,
+  toggleCompose
 }) => {
   const unreadCount = () => {
     return emails.reduce((number, email) => {
@@ -25,6 +26,10 @@ const Toolbar = ({
           <span className="badge badge">{unreadCount()}</span>
           {"unread " + (unreadCount() === 1 ? "message" : "messages")}
         </p>
+
+        <a className="btn btn-danger" onClick={toggleCompose}>
+          <i className="fa fa-plus"></i>
+        </a>
 
         <button className="btn btn-default" onClick={bulkSelect}>
           <i className={"fa " + (bulkCheckbox() ? "fa-check-square-o" :

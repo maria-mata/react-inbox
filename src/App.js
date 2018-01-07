@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Toolbar from './components/toolbar'
+import Compose from './components/compose';
 import MessageList from './components/message-list';
 const url = 'https://immense-oasis-78157.herokuapp.com/api';
 
@@ -9,7 +10,8 @@ class App extends Component {
     this.state = {
       emails: [],
       bulkCheckbox: () => this.state.emails.every(email => email.selected),
-      emptyCheckbox: () => this.state.emails.every(email => !email.selected)
+      emptyCheckbox: () => this.state.emails.every(email => !email.selected),
+      showCompose: false
     }
   }
 
@@ -136,6 +138,14 @@ class App extends Component {
     })
   }
 
+  toggleCompose() {
+    this.setState({...this.state, showCompose: !this.state.showCompose})
+  }
+
+  sendEmail() {
+    
+  }
+
   render() {
     return (
       <main className="container">
@@ -147,7 +157,10 @@ class App extends Component {
           toggleRead={this.toggleRead.bind(this)}
           deleteMessage={this.deleteMessage.bind(this)}
           updateLabel={this.updateLabel.bind(this)}
-           />
+          toggleCompose={this.toggleCompose.bind(this)} />
+
+        <Compose
+          showCompose={this.state.showCompose} />
 
         <MessageList
           emails={this.state.emails}
