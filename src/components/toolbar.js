@@ -4,8 +4,12 @@ const Toolbar = ({
   emails,
   bulkSelect,
   bulkCheckbox,
-  emptyCheckbox
+  emptyCheckbox,
+  markReadOrUnread
 }) => {
+  const markRead = () => markReadOrUnread(true)
+  const markUnread = () => markReadOrUnread(false)
+  
   return (
     <div className="row toolbar">
       <div className="col-md-12">
@@ -19,11 +23,11 @@ const Toolbar = ({
             emptyCheckbox() ? "fa-square-o" : "fa-minus-square-o")}></i>
         </button>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={markRead}>
           Mark As Read
         </button>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick={markUnread}>
           Mark As Unread
         </button>
 

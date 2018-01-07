@@ -65,13 +65,47 @@ class App extends Component {
     })
   }
 
+  markReadOrUnread(value) {
+    this.setState(prevState => {
+      const ids = prevState.emails.reduce((ids, email) => {
+        if (email.selected) {
+          email.read = value
+          ids.push(Number(email.id))
+        }
+        return ids
+      }, [])
+
+      const data = {
+        "messageIds" : ids,
+        "command" : "read",
+        "read" : value
+      };
+      const settings = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      fetch(`${url}/messages`, settings)
+      .then(response => {
+        if(response.ok){
+          console.log(response)
+        }
+      })
+      return prevState
+    })
+  }
+
   render() {
     return (
       <main className="container">
         <Toolbar emails={this.state.emails}
           bulkSelect={this.bulkSelect.bind(this)}
           bulkCheckbox={this.state.bulkCheckbox}
-          emptyCheckbox={this.state.emptyCheckbox} />
+          emptyCheckbox={this.state.emptyCheckbox}
+          markReadOrUnread={this.markReadOrUnread.bind(this)}
+        />
 
         <MessageList emails={this.state.emails}
           toggleStar={this.toggleStar.bind(this)}
